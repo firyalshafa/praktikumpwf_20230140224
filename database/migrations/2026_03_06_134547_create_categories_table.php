@@ -6,16 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
+        // Menggunakan 'categories' (jamak) agar standar Laravel
         Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
-            $table->string('name');
-            $table->timestamps();
+            $table->id(); 
+            $table->string('name')->unique(); 
+            $table->timestamps(); 
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::dropIfExists('categories');

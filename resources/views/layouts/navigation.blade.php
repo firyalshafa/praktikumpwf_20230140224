@@ -13,9 +13,15 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    @can('manage-product')
+                    {{-- User biasa & Admin bisa melihat daftar produk --}}
                     <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
                         {{ __('Product') }}
+                    </x-nav-link>
+
+                    {{-- Menu Category: Hanya muncul jika Gate 'manage-category' mengizinkan (Admin) --}}
+                    @can('manage-category')
+                    <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.*')">
+                        {{ __('Category') }}
                     </x-nav-link>
                     @endcan
 
@@ -69,17 +75,26 @@
             </div>
         </div>
     </div>
-    
+
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            @can('manage-product')
+
             <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
                 {{ __('Product') }}
             </x-responsive-nav-link>
+
+            @can('manage-category')
+            <x-responsive-nav-link :href="route('category.index')" :active="request()->routeIs('category.*')">
+                {{ __('Category') }}
+            </x-responsive-nav-link>
             @endcan
+
+            <x-responsive-nav-link :href="route('about')" :active="request()->routeIs('about')">
+                {{ __('About Me') }}
+            </x-responsive-nav-link>
         </div>
 
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
@@ -92,6 +107,7 @@
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
+
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <x-responsive-nav-link :href="route('logout')"
